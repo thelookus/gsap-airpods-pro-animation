@@ -1,0 +1,120 @@
+<html lang="en">
+    <head>
+        <title>GSAP AirPods Pro Animation</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="AirPods Pro Animation based on https://www.apple.com/la/airpods-pro/">
+        <meta name="keywords" content="AirPods Pro, Animation, GSAP">
+        <meta name="author" content="Lucas Calvino">
+        <meta name="robots" content="index, follow">
+        <meta name="googlebot" content="index, follow">
+        <meta name="google" content="notranslate">
+    </head>
+    <style>
+        html {
+            background-color: #111;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        body {
+            height: 2000px;
+        }
+        .title {
+            position: fixed;
+            font-size: 12vw;
+            width: 100%;
+            text-align: center;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            color: #fff;
+            opacity: 1;
+        }
+        canvas {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            aspect-ratio: 1068/600;
+            width: 100%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            object-fit: contain;
+        }
+    </style>
+
+    <body>
+        <div class="container">
+            <h1 class="title">AirPods Pro</h1>
+            <canvas id="hero" />
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+
+        <script>
+            gsap.registerPlugin(SplitText);
+            gsap.registerPlugin(ScrollTrigger);
+
+            gsap.to('.title', {
+                scale: 1.5,
+                autoAlpha: 0,
+                scrollTrigger: {
+                    scrub: true,
+                    markers: false,
+                }
+            });
+
+            // Create the canvas
+            const canvas = document.getElementById('hero');
+            canvas.width = 1068;
+            canvas.height = 600;
+
+            // Append the canvas to the body
+            document.body.appendChild(canvas);
+
+            // Get the context
+            const ctx = canvas.getContext('2d');
+
+            // Total frames
+            const TOTAL_FRAMES = 65;
+
+            // Create the URL for the image
+            const createURL = (frame) => {
+                const id = frame.toString().padStart(4, '0');
+                return `https://www.apple.com/105/media/us/airpods-pro/2022/d2deeb8e-83eb-48ea-9721-f567cf0fffa8/anim/hero/large/${id}.png`;
+            }
+
+            // Create the images
+            const images = Array.from({ length: TOTAL_FRAMES }, (_, i) => {
+                const img = new Image();
+                img.src = createURL(i);
+                return img;
+            });
+
+            // Airpods object
+            const airpods = {
+                frame: 0
+            };
+
+            // Airpods animation
+            gsap.to(airpods, {
+                frame: TOTAL_FRAMES - 1,
+                ease: "none",
+                snap: "frame", // Update the frame when the animation is complete
+                scrollTrigger: {
+                    scrub: 0.5
+                },
+                onUpdate: () => render()
+            });
+
+            // On load render the first image
+            images[0].onload = () => render();
+
+            // Render the image
+            function render() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(images[airpods.frame], 0, 0, canvas.width, canvas.height);
+            };
+        </script>
+    </body>
+</html>
