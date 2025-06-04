@@ -2,8 +2,7 @@
 
 A recreation of Apple's AirPods Pro scroll-based animation using GSAP and HTML Canvas. This project demonstrates how to create smooth, scroll-triggered animations with image sequences.
 
-![AirPods Pro Animation](![Screenshot 2025-06-04 at 4 44 17 PM](https://github.com/user-attachments/assets/a1835c21-f1e5-4d67-81eb-ca86c7388928)
-)
+![Screenshot 2025-06-04 at 4 44 17 PM](https://github.com/user-attachments/assets/a1835c21-f1e5-4d67-81eb-ca86c7388928)
 
 ## 🚀 Technologies
 
