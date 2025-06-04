@@ -55,15 +55,43 @@
             gsap.registerPlugin(SplitText);
             gsap.registerPlugin(ScrollTrigger);
 
-            gsap.to('.title', {
-                scale: 1.5,
+            // Calculate total animation time
+            const INITIAL_DELAY = 1;
+            const ANIMATION_DURATION = 1.2;
+            const TOTAL_DELAY = (INITIAL_DELAY + ANIMATION_DURATION) * 1000; // convert to ms
+
+            const tl = gsap.timeline({delay: INITIAL_DELAY});
+            tl.from('.title', {
                 autoAlpha: 0,
-                scrollTrigger: {
-                    scrub: true,
-                    markers: false,
-                }
+                duration: ANIMATION_DURATION,
+                ease: "power2.inOut"
+            })
+            .from('.title', {
+                scale: 0.5,
+                duration: 1,
+                ease: "power2.inOut"
+            }, "-=0.9")
+            .eventCallback("onComplete", () => {
+                gsap.to('.title', {
+                    scale: 1.5,
+                    autoAlpha: 0,
+                    scrollTrigger: {
+                        scrub: true
+                    }
+                });
             });
 
+            const tl2 = gsap.timeline({delay: INITIAL_DELAY});
+            tl2.from('canvas', {
+                autoAlpha: 0,
+                duration: 0.3,
+                ease: "power2.inOut"
+            })
+            .from('canvas', {
+                scale: 0.8,
+                duration: 1,
+                ease: "power2.inOut",
+            })
             // Create the canvas
             const canvas = document.getElementById('hero');
             canvas.width = 1068;
