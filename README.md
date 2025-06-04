@@ -23,7 +23,7 @@ A recreation of Apple's AirPods Pro scroll-based animation using GSAP and HTML C
 ## 🛠️ Setup
 
 1. Clone the repository
-2. Open `airpods.html` in your browser
+2. Open `index.html` in your browser
 3. No build process required!
 
 ## 🎯 How it works
